@@ -19,6 +19,6 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "."),
       },
     },
-    base: "/portfolio-v3/",
+    // base: "/portfolio-v3/",
   };
 });
