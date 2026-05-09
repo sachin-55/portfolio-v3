@@ -31,4 +31,4 @@ jobs:
 
       - name: Restart PM2
         run: |
-          pm2 reload portfolio-v3
+          pm2 reload portfolio_v3
