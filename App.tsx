@@ -12,15 +12,10 @@ import {
   Briefcase,
   GraduationCap,
   User,
-  MessageSquare,
-  X,
-  Send,
-  Loader2,
   Terminal,
   Cpu,
 } from "lucide-react";
 import { PERSONAL_INFO, EXPERIENCE, PROJECTS, SKILLS, EDUCATION } from "./data";
-import { chatWithSachin } from "./services/geminiService";
 
 const SectionTitle: React.FC<{
   title: string;
@@ -39,36 +34,7 @@ const SectionTitle: React.FC<{
 );
 
 const App: React.FC = () => {
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [chatInput, setChatInput] = useState("");
-  const [messages, setMessages] = useState<
-    { role: "user" | "ai"; content: string }[]
-  >([
-    {
-      role: "ai",
-      content:
-        "Hi! I'm Sachin's AI assistant. Ask me anything about his projects, experience, or skills!",
-    },
-  ]);
-  const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<"Work" | "Personal">("Work");
-
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!chatInput.trim() || isLoading) return;
-
-    const userMessage = chatInput;
-    setChatInput("");
-    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
-    setIsLoading(true);
-
-    const response = await chatWithSachin(userMessage);
-    setMessages((prev) => [
-      ...prev,
-      { role: "ai", content: response || "Something went wrong." },
-    ]);
-    setIsLoading(false);
-  };
 
   return (
     <div className="min-h-screen font-sans selection:bg-purple-600">
@@ -100,13 +66,6 @@ const App: React.FC = () => {
                 </a>
               ),
             )}
-            <button
-              onClick={() => setIsChatOpen(true)}
-              className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-all hover:shadow-lg hover:shadow-purple-500/30 flex items-center gap-2"
-            >
-              <MessageSquare className="w-4 h-4" />
-              Ask AI
-            </button>
           </div>
         </div>
       </nav>
@@ -463,97 +422,6 @@ const App: React.FC = () => {
           </div>
         </div>
       </section>
-
-      {/* Floating Chat Button */}
-      {!isChatOpen && (
-        <button
-          onClick={() => setIsChatOpen(true)}
-          className="fixed bottom-8 right-8 w-16 h-16 bg-purple-600 text-white rounded-full shadow-2xl shadow-purple-600/40 flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group"
-        >
-          <MessageSquare className="w-7 h-7" />
-          <span className="absolute right-full mr-4 px-3 py-1 bg-black border border-white/10 rounded-lg text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-            Talk to my AI
-          </span>
-        </button>
-      )}
-
-      {/* Chat Modal */}
-      {isChatOpen && (
-        <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-end md:p-10 pointer-events-none">
-          <div className="w-full md:w-[450px] md:max-h-[700px] h-[80vh] bg-black border border-white/10 shadow-2xl rounded-t-[32px] md:rounded-[40px] flex flex-col overflow-hidden pointer-events-auto">
-            {/* Chat Header */}
-            <div className="p-6 bg-gradient-to-r from-purple-900/40 to-black border-b border-white/10 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center">
-                  <Terminal className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-sm">Sachin AI Assistant</h3>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                      Powered by Gemini
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <button
-                onClick={() => setIsChatOpen(false)}
-                className="p-2 hover:bg-white/5 rounded-xl transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Chat Body */}
-            <div className="flex-grow overflow-y-auto p-6 space-y-4">
-              {messages.map((m, i) => (
-                <div
-                  key={i}
-                  className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
-                >
-                  <div
-                    className={`max-w-[85%] p-4 rounded-3xl ${
-                      m.role === "user"
-                        ? "bg-purple-600 text-white rounded-tr-none"
-                        : "bg-white/5 border border-white/10 text-gray-300 rounded-tl-none"
-                    }`}
-                  >
-                    <p className="text-sm leading-relaxed">{m.content}</p>
-                  </div>
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex justify-start">
-                  <div className="p-4 rounded-3xl bg-white/5 border border-white/10 rounded-tl-none">
-                    <Loader2 className="w-5 h-5 animate-spin text-purple-400" />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Chat Footer */}
-            <form
-              onSubmit={handleSendMessage}
-              className="p-6 border-t border-white/10 flex gap-3"
-            >
-              <input
-                value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
-                placeholder="Ask about skills, projects..."
-                className="flex-grow bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 transition-colors"
-              />
-              <button
-                type="submit"
-                disabled={!chatInput.trim() || isLoading}
-                className="w-12 h-12 bg-purple-600 text-white rounded-2xl flex items-center justify-center hover:bg-purple-700 transition-colors disabled:opacity-50"
-              >
-                <Send className="w-5 h-5" />
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

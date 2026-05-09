@@ -1,0 +1,24 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Update code on server
+        run: |
+          cd /home/nihcas/server/portfolio-v3
+          git pull origin main
+
+      - name: Install dependencies
+        run: |
+          cd /home/nihcas/server/portfolio-v3
+          npm install
+
+      - name: Restart PM2
+        run: |
+          pm2 reload portfolio-v3
