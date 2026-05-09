@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd /home/nihcas/server/portfolio-v3
-          npm install
+          pnpm install
 
       - name: Restart PM2
         run: |
