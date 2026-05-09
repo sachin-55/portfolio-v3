@@ -15,7 +15,9 @@ jobs:
       - name: Update code on server
         run: |
           cd /home/nihcas/server/portfolio-v3
-          git pull origin main
+          git fetch origin main
+          git reset --hard origin/main
+          git clean -fd
 
       - name: Install dependencies
         run: |
