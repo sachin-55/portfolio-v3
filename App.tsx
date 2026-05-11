@@ -46,7 +46,7 @@ const App: React.FC = () => {
             onClick={() => window.scrollTo(0, 0)}
           >
             <div className="w-10 h-10 bg-gradient-to-tr from-purple-600 to-red-500 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
-              S
+              Sachin
             </div>
             <span className="font-bold text-xl tracking-tighter">
               Bhattarai
@@ -79,10 +79,6 @@ const App: React.FC = () => {
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-purple-400 mb-6 uppercase tracking-widest">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-              Available for new projects
-            </div>
             <h1 className="text-6xl md:text-8xl font-black mb-8 leading-[0.9] tracking-tighter">
               BUILDING{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-red-500 to-yellow-500">
